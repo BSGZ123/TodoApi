@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TodoApi.Models;
+
 namespace TodoApi
 {
     public class Program
@@ -5,6 +8,12 @@ namespace TodoApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<TodoContext>(Options =>
+            {
+                Options.UseInMemoryDatabase("TodoList");
+            });
+
 
             // Add services to the container.
 
