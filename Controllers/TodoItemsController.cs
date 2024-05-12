@@ -31,8 +31,9 @@ namespace TodoApi.Controllers
             return await _context.TodoItems.ToListAsync();
         }
 
+        //GetTodoItems 和 GetTodoItem 方法的返回类型是 ActionResult<T> 类型,自动将对象序列化为JSON，并将 JSON 写入响应消息的正文中。
         // GET: api/TodoItems/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}")]//URL 中"{id}" 的值会在 id 参数中提供给方法
         public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
         {
           if (_context.TodoItems == null)
@@ -48,7 +49,7 @@ namespace TodoApi.Controllers
 
             return todoItem;
         }
-
+        // HTTP 规范，PUT 请求需要客户端发送整个更新的实体，而不仅仅是更改。 若要支持部分更新，请使用 HTTP PATCH。
         // PUT: api/TodoItems/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -92,7 +93,7 @@ namespace TodoApi.Controllers
             _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);//nameof 关键字用于避免在 CreatedAtAction 调用中硬编码操作名称
         }
 
         // DELETE: api/TodoItems/5
